@@ -1,0 +1,291 @@
+/* =========================================================
+   profile.css — User Profile Page Styles
+   ========================================================= */
+
+/* ── Profile Layout ─────────────────────────────────────── */
+.profile-layout {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 16px 72px;
+}
+
+/* ── Profile Header Card ────────────────────────────────── */
+.profile-header-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: visible;       /* must be visible so avatar can overlap the cover */
+  margin-bottom: 16px;
+  animation: fadeInUp 0.4s ease;
+  position: relative;
+}
+
+/* Cover banner */
+.profile-cover {
+  height: 150px;
+  background: var(--brand-gradient);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  position: relative;
+}
+
+/*
+ * Avatar is positioned absolutely relative to .profile-header-card
+ * so it sits exactly half-over the cover, half-over the info area.
+ * left: 24px matches the horizontal padding of the info row.
+ */
+.profile-avatar-wrap {
+  position: absolute;
+  top: calc(150px - 50px);   /* cover height minus half the avatar height */
+  left: 24px;
+  z-index: 2;
+  width: 100px;
+  height: 100px;
+}
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid var(--surface);
+  object-fit: cover;
+  display: block;
+}
+.avatar-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid var(--surface);
+  background: var(--brand-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  font-weight: 800;
+  color: white;
+  position: absolute;
+  top: 0; left: 0;
+}
+
+/*
+ * Info row: padding-left clears the avatar (100px wide + 24px left + 16px gap).
+ * padding-top gives breathing room below the avatar overlap.
+ */
+.profile-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 58px 24px 24px 148px;
+  flex-wrap: wrap;
+  background: var(--surface);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* ── Meta ───────────────────────────────────────────────── */
+.profile-meta {
+  flex: 1;
+  min-width: 180px;
+}
+
+.profile-name-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.profile-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.profile-username {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.profile-bio {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 6px 0 14px;
+  max-width: 480px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── Stats ──────────────────────────────────────────────── */
+.profile-stats {
+  display: flex;
+  gap: 28px;
+}
+
+.pstat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.pstat strong {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+.pstat span {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+.pstat:hover strong { color: var(--brand-from); }
+
+/* ── Profile Actions ────────────────────────────────────── */
+.profile-actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+/* ── Profile Tabs ───────────────────────────────────────── */
+.profile-content {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.profile-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+
+.ptab {
+  flex: 1;
+  padding: 14px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: -1px;
+}
+.ptab:hover  { color: var(--text-primary); background: var(--bg); }
+.ptab.active { color: var(--brand-from); border-bottom-color: var(--brand-from); }
+
+.tab-panel { padding: 14px; }
+.tab-panel.hidden { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── User Grid (followers/following) ───────────────────── */
+.user-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: var(--transition);
+  cursor: pointer;
+  animation: fadeInUp 0.3s ease;
+}
+.user-card:hover { background: var(--bg); transform: translateX(2px); }
+
+.user-card-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--brand-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.user-card-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.user-card-info { flex: 1; min-width: 0; }
+.user-card-name { font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.user-card-handle { font-size: 12px; color: var(--text-muted); }
+
+/* ── Edit Profile Modal ─────────────────────────────────── */
+.edit-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.edit-avatar-preview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--border);
+}
+.avatar-placeholder-edit {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--brand-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 800;
+  color: white;
+  position: absolute;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .profile-cover {
+    height: 110px;
+  }
+  .profile-avatar-wrap {
+    top: calc(110px - 44px);  /* cover height minus half avatar */
+    left: 16px;
+    width: 88px;
+    height: 88px;
+  }
+  .profile-avatar,
+  .avatar-placeholder {
+    width: 88px;
+    height: 88px;
+  }
+  .avatar-placeholder { font-size: 32px; }
+  .profile-info-row {
+    padding: 52px 16px 20px 16px;  /* on mobile: stack below avatar, full width */
+  }
+  .profile-meta {
+    width: 100%;
+    min-width: 0;
+  }
+  .profile-actions {
+    margin-left: 0;
+    width: 100%;
+  }
+  .profile-stats { gap: 20px; }
+  .profile-name  { font-size: 20px; }
+}

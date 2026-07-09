@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feed — SocialSphere</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/feed.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="js/api.js"></script>
+</head>
+<body class="app-page">
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="feed.html" class="nav-brand">
+        <div class="brand-logo small">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="14" fill="url(#hgrad)"/>
+            <path d="M8 14 Q14 6 20 14 Q14 22 8 14Z" fill="white" opacity="0.9"/>
+            <defs>
+              <linearGradient id="hgrad" x1="0" y1="0" x2="28" y2="28">
+                <stop offset="0%" stop-color="#667eea"/>
+                <stop offset="100%" stop-color="#764ba2"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="brand-name">SocialSphere</span>
+      </a>
+
+      <!-- Search Bar -->
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search people..." />
+        <div id="searchResults" class="search-dropdown hidden"></div>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <a href="feed.html" class="nav-icon-btn active" title="Feed">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+        </a>
+        <a href="create-post.html" class="nav-icon-btn" title="Create Post">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        </a>
+        <a href="profile.html" class="nav-icon-btn" title="Profile" id="profileNavBtn">
+          <div class="nav-avatar" id="navAvatar"></div>
+        </a>
+        <button class="nav-icon-btn logout-btn" title="Logout" id="logoutBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16,17 21,12 16,7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-nav">
+    <a href="feed.html" class="mobile-nav-item active">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9,22 9,12 15,12 15,22"/>
+      </svg>
+      <span>Feed</span>
+    </a>
+    <a href="create-post.html" class="mobile-nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="16"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+      <span>Post</span>
+    </a>
+    <a href="profile.html" class="mobile-nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- Main Layout -->
+  <main class="app-layout">
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar-left">
+      <div class="sidebar-card" id="sidebarProfile">
+        <!-- Filled by JS -->
+        <div class="skeleton-avatar"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line short"></div>
+      </div>
+
+      <div class="sidebar-card">
+        <h4 class="sidebar-title">Navigation</h4>
+        <nav class="sidebar-nav">
+          <a href="feed.html" class="sidebar-link active">
+            <span class="slink-icon">🏠</span> Home Feed
+          </a>
+          <a href="profile.html" class="sidebar-link">
+            <span class="slink-icon">👤</span> My Profile
+          </a>
+          <a href="create-post.html" class="sidebar-link">
+            <span class="slink-icon">✏️</span> Create Post
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Center Feed -->
+    <section class="feed-section">
+      <!-- Create Post Quick Card -->
+      <div class="create-post-card">
+        <div class="cp-avatar" id="cpAvatar"></div>
+        <a href="create-post.html" class="cp-input-fake">What's on your mind?</a>
+        <a href="create-post.html" class="btn btn-primary btn-sm">Post</a>
+      </div>
+
+      <!-- Feed Posts Container -->
+      <div id="feedContainer">
+        <!-- Skeleton Loading -->
+        <div class="post-skeleton">
+          <div class="sk-header"><div class="skeleton-avatar"></div><div class="sk-lines"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+        <div class="post-skeleton">
+          <div class="sk-header"><div class="skeleton-avatar"></div><div class="sk-lines"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Sidebar -->
+    <aside class="sidebar-right">
+      <div class="sidebar-card">
+        <h4 class="sidebar-title">Discover People</h4>
+        <div id="discoverPeople">
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Comment Modal -->
+  <div id="commentModal" class="modal hidden">
+    <div class="modal-overlay" onclick="closeCommentModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Comments</h3>
+        <button class="modal-close" onclick="closeCommentModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="commentsList" class="comments-list"></div>
+        <div class="comment-input-area">
+          <div class="ci-avatar" id="commentAvatar"></div>
+          <div class="ci-form">
+            <textarea id="commentText" placeholder="Write a comment..." rows="2"></textarea>
+            <button class="btn btn-primary btn-sm" id="submitComment">Post</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Post Modal -->
+  <div id="editPostModal" class="modal hidden">
+    <div class="modal-overlay" onclick="closeEditModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Edit Post</h3>
+        <button class="modal-close" onclick="closeEditModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <textarea id="editPostContent" class="edit-textarea" rows="4"></textarea>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" onclick="closeEditModal()">Cancel</button>
+          <button class="btn btn-primary" id="saveEditPost">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/feed.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — SocialSphere</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/login.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="js/api.js"></script>
+</head>
+<body class="auth-page">
+
+  <div class="auth-container">
+    <!-- Left Panel -->
+    <div class="auth-left">
+      <div class="auth-brand">
+        <div class="brand-logo large">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="20" fill="url(#grad2)"/>
+            <path d="M10 20 Q20 8 30 20 Q20 32 10 20Z" fill="white" opacity="0.9"/>
+            <defs>
+              <linearGradient id="grad2" x1="0" y1="0" x2="40" y2="40">
+                <stop offset="0%" stop-color="#667eea"/>
+                <stop offset="100%" stop-color="#764ba2"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="brand-name large">SocialSphere</span>
+      </div>
+      <h2 class="auth-tagline">Welcome back!</h2>
+      <p class="auth-desc">Sign in to reconnect with your community, see what's new in your feed, and share your moments.</p>
+      <div class="auth-illustration">
+        <div class="ill-circle c1"></div>
+        <div class="ill-circle c2"></div>
+        <div class="ill-circle c3"></div>
+      </div>
+    </div>
+
+    <!-- Right Panel (Form) -->
+    <div class="auth-right">
+      <div class="auth-card">
+        <h1 class="auth-title">Sign In</h1>
+        <p class="auth-subtitle">Don't have an account? <a href="register.html">Create one</a></p>
+
+        <!-- Alert -->
+        <div id="authAlert" class="alert hidden"></div>
+
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <div class="input-wrapper">
+              <span class="input-icon">✉️</span>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+            <span class="field-error" id="emailError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-input"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              />
+              <button type="button" class="toggle-password" onclick="togglePassword('password')">👁</button>
+            </div>
+            <span class="field-error" id="passwordError"></span>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-spinner hidden"></span>
+          </button>
+        </form>
+
+        <div class="auth-divider"><span>or</span></div>
+        <p class="auth-switch">New to SocialSphere? <a href="register.html">Create an account</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/login.js"></script>
+</body>
+</html>

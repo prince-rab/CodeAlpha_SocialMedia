@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — SocialSphere</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/profile.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="js/api.js"></script>
+</head>
+<body class="app-page">
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a href="feed.html" class="nav-brand">
+        <div class="brand-logo small">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="14" fill="url(#pgrad)"/>
+            <path d="M8 14 Q14 6 20 14 Q14 22 8 14Z" fill="white" opacity="0.9"/>
+            <defs>
+              <linearGradient id="pgrad" x1="0" y1="0" x2="28" y2="28">
+                <stop offset="0%" stop-color="#667eea"/>
+                <stop offset="100%" stop-color="#764ba2"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="brand-name">SocialSphere</span>
+      </a>
+
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search people..." />
+        <div id="searchResults" class="search-dropdown hidden"></div>
+      </div>
+
+      <div class="header-actions">
+        <a href="feed.html" class="nav-icon-btn" title="Feed">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+        </a>
+        <a href="create-post.html" class="nav-icon-btn" title="Create Post">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        </a>
+        <a href="profile.html" class="nav-icon-btn active" title="Profile" id="profileNavBtn">
+          <div class="nav-avatar" id="navAvatar"></div>
+        </a>
+        <button class="nav-icon-btn logout-btn" title="Logout" id="logoutBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16,17 21,12 16,7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-nav">
+    <a href="feed.html" class="mobile-nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9,22 9,12 15,12 15,22"/>
+      </svg>
+      <span>Feed</span>
+    </a>
+    <a href="create-post.html" class="mobile-nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="16"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+      <span>Post</span>
+    </a>
+    <a href="profile.html" class="mobile-nav-item active">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <!-- Main Layout -->
+  <main class="profile-layout">
+
+    <!-- Profile Header -->
+    <div class="profile-header-card" id="profileHeader">
+      <div class="profile-cover"></div>
+      <!-- Avatar sits absolutely over the cover/info boundary -->
+      <div class="profile-avatar-wrap">
+        <img id="profileAvatar" src="" alt="Avatar" class="profile-avatar" />
+        <div class="avatar-placeholder" id="avatarPlaceholder"></div>
+      </div>
+      <div class="profile-info-row">
+        <div class="profile-meta">
+          <div class="profile-name-row">
+            <h1 id="profileName" class="profile-name">Loading...</h1>
+            <span id="profileUsername" class="profile-username">@username</span>
+          </div>
+          <p id="profileBio" class="profile-bio"></p>
+          <div class="profile-stats">
+            <div class="pstat" id="statPosts">
+              <strong>0</strong><span>Posts</span>
+            </div>
+            <div class="pstat" id="statFollowers">
+              <strong>0</strong><span>Followers</span>
+            </div>
+            <div class="pstat" id="statFollowing">
+              <strong>0</strong><span>Following</span>
+            </div>
+          </div>
+        </div>
+        <div class="profile-actions" id="profileActions">
+          <!-- Filled by JS: Edit Profile or Follow/Unfollow -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Content -->
+    <div class="profile-content">
+
+      <!-- Tabs -->
+      <div class="profile-tabs">
+        <button class="ptab active" data-tab="posts">Posts</button>
+        <button class="ptab" data-tab="followers">Followers</button>
+        <button class="ptab" data-tab="following">Following</button>
+      </div>
+
+      <!-- Posts Tab -->
+      <div id="tab-posts" class="tab-panel active">
+        <div id="userPostsContainer">
+          <div class="post-skeleton">
+            <div class="sk-header"><div class="skeleton-avatar"></div><div class="sk-lines"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Followers Tab -->
+      <div id="tab-followers" class="tab-panel hidden">
+        <div id="followersList" class="user-grid"></div>
+      </div>
+
+      <!-- Following Tab -->
+      <div id="tab-following" class="tab-panel hidden">
+        <div id="followingList" class="user-grid"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Edit Profile Modal -->
+  <div id="editProfileModal" class="modal hidden">
+    <div class="modal-overlay" onclick="closeEditProfileModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Edit Profile</h3>
+        <button class="modal-close" onclick="closeEditProfileModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="editAlertMsg" class="alert hidden"></div>
+        <div class="edit-avatar-section">
+          <img id="editCurrentAvatar" src="" alt="" class="edit-avatar-preview" />
+          <div class="avatar-placeholder-edit" id="editAvatarPlaceholder"></div>
+          <label class="btn btn-outline btn-sm" for="profileImageInput">Change Photo</label>
+          <input type="file" id="profileImageInput" accept="image/*" class="hidden-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="editName" class="form-input" placeholder="Your name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Bio</label>
+          <textarea id="editBio" class="form-input" rows="3" placeholder="Tell the world about yourself..." maxlength="300"></textarea>
+          <span class="char-count"><span id="bioCount">0</span>/300</span>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" onclick="closeEditProfileModal()">Cancel</button>
+          <button class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comment Modal (for viewing profile posts) -->
+  <div id="commentModal" class="modal hidden">
+    <div class="modal-overlay" onclick="closeCommentModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Comments</h3>
+        <button class="modal-close" onclick="closeCommentModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="commentsList" class="comments-list"></div>
+        <div class="comment-input-area">
+          <div class="ci-avatar" id="commentAvatar"></div>
+          <div class="ci-form">
+            <textarea id="commentText" placeholder="Write a comment..." rows="2"></textarea>
+            <button class="btn btn-primary btn-sm" id="submitComment">Post</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Post Modal -->
+  <div id="editPostModal" class="modal hidden">
+    <div class="modal-overlay" onclick="closeEditModal()"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Edit Post</h3>
+        <button class="modal-close" onclick="closeEditModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <textarea id="editPostContent" class="edit-textarea" rows="4"></textarea>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" onclick="closeEditModal()">Cancel</button>
+          <button class="btn btn-primary" id="saveEditPost">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/profile.js"></script>
+</body>
+</html>
