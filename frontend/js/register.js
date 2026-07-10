@@ -112,7 +112,18 @@ document.getElementById('registerForm').addEventListener('submit', async functio
           else showAlert(err.msg, 'error');
         });
       } else {
-        showAlert(data.message || 'Registration failed. Please try again.', 'error');
+        // Handle 409 Conflict (username or email already taken)
+        if (res.status === 409) {
+          if (data.message.toLowerCase().includes('username')) {
+            setFieldError('username', data.message);
+          } else if (data.message.toLowerCase().includes('email')) {
+            setFieldError('email', data.message);
+          } else {
+            showAlert(data.message || 'This username or email is already taken. Please try different values.', 'error');
+          }
+        } else {
+          showAlert(data.message || 'Registration failed. Please try again.', 'error');
+        }
       }
       setLoading(false);
     }

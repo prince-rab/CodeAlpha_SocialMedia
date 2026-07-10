@@ -1,32 +1,16 @@
 /**
  * api.js — Shared API configuration for all frontend pages.
  *
- * Sets window.API_BASE so every fetch() always hits the Express
- * server on port 5000, regardless of which port serves the HTML.
+ * Sets window.API_BASE so every fetch() always hits the Express server.
  *
- * Best practice: open the app at http://localhost:5000 directly —
- * Express serves the frontend AND the API from the same origin,
- * so session cookies work with no cross-origin issues.
+ * Express serves both the frontend (static files) AND the API from the same origin,
+ * so session cookies work reliably in all environments:
+ * - Localhost: http://localhost:5000 (frontend and API on same origin)
+ * - Production (Render): https://your-app.onrender.com (frontend and API on same origin)
  */
 
 (function () {
-  // Must match PORT in backend/.env (default 5000)
-  const EXPRESS_PORT = 5000;
-
-  const currentPort = parseInt(window.location.port, 10) || 80;
-
-  if (currentPort === EXPRESS_PORT) {
-    // Same origin — use relative URLs, cookies travel fine.
-    window.API_BASE = '';
-  } else {
-    // Different port (e.g. Live Server on 5500).
-    // Point API calls at Express. Note: sessions may not persist across
-    // origins unless the browser allows it — always prefer localhost:5000.
-    window.API_BASE = `http://localhost:${EXPRESS_PORT}`;
-    console.warn(
-      `[SocialSphere] Page is on port ${currentPort}. ` +
-      `API calls go to http://localhost:${EXPRESS_PORT}. ` +
-      `Open http://localhost:${EXPRESS_PORT} directly for full session support.`
-    );
-  }
+  // Always use relative URLs — Express serves both frontend and API from the same origin.
+  // This ensures cookies and sessions work correctly in all environments.
+  window.API_BASE = '';
 })();

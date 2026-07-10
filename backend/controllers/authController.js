@@ -57,7 +57,11 @@ const authController = {
       // ── Step 1: Check username uniqueness ───────────────────
       const existing = await User.findByUsername(username);
       if (existing) {
-        return res.status(409).json({ success: false, message: 'Username already taken.' });
+        console.warn(`[Auth] Username already taken: ${username}`);
+        return res.status(409).json({ 
+          success: false, 
+          message: 'Username already taken. Please choose a different username.' 
+        });
       }
 
       // ── Step 2: Create Supabase Auth user ───────────────────
@@ -71,10 +75,13 @@ const authController = {
       });
 
       if (authError) {
-        console.error('[Auth] signUp error:', authError.message);
-        const msg = authError.message.toLowerCase().includes('already')
-          ? 'Email already in use.'
-          : authError.message;
+        console.error('[Auth] signUp error:', authError.message, 'Email:', email);
+        let msg = authError.message;
+        if (msg.toLowerCase().includes('already registered')) {
+          msg = 'This email is already registered. Please log in instead or use a different email.';
+        } else if (msg.toLowerCase().includes('already')) {
+          msg = 'Email already in use. Please try a different email.';
+        }
         return res.status(409).json({ success: false, message: msg });
       }
 
