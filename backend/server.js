@@ -73,10 +73,27 @@ console.warn('  ⚠️  Using in-memory session store. Sessions will reset on se
 
 // CORS must be first — before body parsers and session — so that
 // pre-flight OPTIONS requests and cross-origin credentials work.
-app.use(cors({
-  origin:      true,   // reflect the request origin (allows any origin)
-  credentials: true,   // allow cookies to be sent cross-origin
-}));
+// CORS configuration
+// Allow specifying a single origin or a comma-separated list via
+// the ALLOWED_ORIGIN environment variable. If not set, we fall
+// back to the previous behaviour (reflect the origin).
+const allowedOriginEnv = process.env.ALLOWED_ORIGIN || '';
+const allowedOrigins = allowedOriginEnv.split(',').map(s => s.trim()).filter(Boolean);
+
+if (allowedOrigins.length > 0) {
+  app.use(cors({
+    origin: (origin, callback) => {
+      // Allow non-browser tools (Postman, curl) with no origin
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+      return callback(new Error('CORS policy: Origin not allowed'));
+    },
+    credentials: true,
+  }));
+} else {
+  // No ALLOWED_ORIGIN configured — reflect the request origin (previous behaviour)
+  app.use(cors({ origin: true, credentials: true }));
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
