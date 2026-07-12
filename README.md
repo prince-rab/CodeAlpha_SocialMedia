@@ -96,6 +96,3 @@ http://localhost:5000
 - Use a strong `SESSION_SECRET`.
 - The server prints startup diagnostics if any required environment value is missing.
 
-## License
-
-MIT License.
